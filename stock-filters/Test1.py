@@ -23,11 +23,13 @@ def perform(level, box, options):
 		for x in xrange(chunk.box.minx, chunk.box.maxx):
 			for z in (chunk.box.minz, chunk.box.maxz - 1):
 				y = getGroundYPos(x, z)
-				setBlock(level, blockId, x, y + 1, z)
+				for yy in range(10):
+                                        setBlock(level, blockId, x, y + 1 + yy, z)
 		for z in xrange(chunk.box.minz + 1, chunk.box.maxz - 1):
 			for x in (chunk.box.minx, chunk.box.maxx - 1):
 				y = getGroundYPos(x, z)
-				setBlock(level, blockId, x, y + 1, z)
+				for yy in range(10):
+                                        setBlock(level, blockId, x, y + 1 + yy, z)
 
 
 	initializeHeightmap(level, box)
@@ -139,11 +141,11 @@ class ChunkAnalysis:
 		#self.numGroundBlocks = len(yPositions)
 		self.groundPercentage = len(yPositions) / 256.
 		if len(yPositions) < 1:
-			heightStdDev = 0
+			heightStdDev = ChunkAnalysis.MOST_BUMPY_STDDEV
 		else:
 			heightStdDev = numpy.std(yPositions)
 		# Determining a flatness score from 0 to 1 based on the standard deviation in the height
-		return min(1 - (heightStdDev / ChunkAnalysis.MOST_BUMPY_STDDEV), 0)
+		return max(1 - (heightStdDev / ChunkAnalysis.MOST_BUMPY_STDDEV), 0)
 
 	def calculateResourceProximity(self, allChunks, maxScores):
 		self.resourceProximity = {"B": 0, "W": 0, "V": 0}
