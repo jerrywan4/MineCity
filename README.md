@@ -1,5 +1,4 @@
-# Welcome to the Generative Design in Minecraft Competition Repo
-Here you will find information about how to build artificial intelligence for minecraft.
+# AI Games entry for Generative Design in Minecraft Competition 
 
-Before doing anything, [VISIT THE WIKI PAGE](http://github.com/mcgreentn/MCAI/wiki)
-
+This repository contains the code for the AI Games final project, which is based on the
+GDMC Framework and will be entered in the competition
