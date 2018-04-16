@@ -49,7 +49,7 @@ def isNotResource(id):
 	return NATUAL_BLOCKS[id]['Type'] == 'N'
 
 def isGround(id):
-	return id in NATUAL_BLOCKS and id != 17 # Doesn't count the block as ground if it is air, wood, or plant material
+	return id in NATUAL_BLOCKS and (not id in [17]) # Doesn't count the block as ground if it is air, wood, or plant material
 
 _heightMap = {}
 
@@ -132,6 +132,9 @@ def setBlock(level, id, x, y, z):
 	if y > _heightMap[x][z]:
 		_heightMap[x][z] = y
 
+
+def setHeight(level,x,y,z):
+        _heightMap[x][z] = y
 
 
 # def getHistogram(level, box):
