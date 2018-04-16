@@ -8,93 +8,6 @@ from mcplatform import *
 import utilityFunctions
 from helper import *
 
-inputs = (
-	("Place Districts", "label"),
-	("Material", alphaMaterials.Cobblestone), # the material we want to use to build the mass of the structures
-	)
-
-displayName = "Place Districts"
-
-
-def perform(level, box, options):
-	startTime = time.time()
-
-	def fenceInChunk(level, chunk, blockId):
-		for x in xrange(chunk.box.minx, chunk.box.maxx):
-			for z in (chunk.box.minz, chunk.box.maxz - 1):
-				y = getGroundYPos(x, z)
-				for yy in range(10):
-                                        setBlock(level, blockId, x, y + 1 + yy, z)
-		for z in xrange(chunk.box.minz + 1, chunk.box.maxz - 1):
-			for x in (chunk.box.minx, chunk.box.maxx - 1):
-				y = getGroundYPos(x, z)
-				for yy in range(10):
-                                        setBlock(level, blockId, x, y + 1 + yy, z)
-
-
-	initializeHeightmap(level, box)
-	
-	# Breaks up the selection box into chunks and performs an analysis on them
-	chunks = []
-	for (chunk, slices, point) in level.getChunkSlices(box):
-		chunks.append(ChunkAnalysis(level, chunk, slices))
-
-	# Analyzes distances to other resources
-	maxScores = {"B": 1, "W": 1, "V": 1}
-	for i in chunks:
-		i.calculateResourceProximity(chunks, maxScores)
-
-	# Calculating the fitness for the financial/commercial district
-	commercialCenter = chunks[0]
-	for i in chunks:
-		i.calculateCommercialFitness(maxScores)
-		if i.fitness > commercialCenter.fitness:
-			commercialCenter = i
-
-	# Calculating the fitness for the industrial district
-	industrialCenter = chunks[0]
-	for i in chunks:
-		i.calculateIndustrialFitness(maxScores, commercialCenter)
-		if i.fitness > industrialCenter.fitness:
-			industrialCenter = i
-
-	# Calculating the fitness for the agricultural district
-	agriculturalCenter = chunks[0]
-	for i in chunks:
-		i.calculateAgriculturalFitness(maxScores, commercialCenter, industrialCenter)
-		if i.fitness > agriculturalCenter.fitness:
-			agriculturalCenter = i
-
-	# Calculating the fitness for the high-class residential district
-	highClassResidentialCenter = chunks[0]
-	for i in chunks:
-		i.calculateHighClassResidentialFitness(maxScores, commercialCenter, industrialCenter, agriculturalCenter)
-		if i.fitness > highClassResidentialCenter.fitness:
-			highClassResidentialCenter = i
-
-	# Calculating the fitness for the low-class residential district
-	lowClassResidentialCenter = chunks[0]
-	for i in chunks:
-		i.calculateLowClassResidentialFitness(maxScores, commercialCenter, industrialCenter, agriculturalCenter, highClassResidentialCenter)
-		if i.fitness > lowClassResidentialCenter.fitness:
-			lowClassResidentialCenter = i
-
-
-	# Fencing in each district with a different color
-	fenceInChunk(level, commercialCenter, (160, 2)) # Purple
-	fenceInChunk(level, industrialCenter, (160, 1)) # Orange
-	fenceInChunk(level, agriculturalCenter, (160, 4)) # Yellow
-	fenceInChunk(level, highClassResidentialCenter, (160, 11)) # Dark Blue
-	fenceInChunk(level, lowClassResidentialCenter, (160, 9)) # Light Blue
-
-
-
-	endTime = time.time()
-	print "Finished in " + str(endTime - startTime) + " seconds"
-	return
-
-
-
 
 class ChunkAnalysis:
 	MOST_BUMPY_STDDEV = 10.
@@ -260,6 +173,37 @@ class ChunkAnalysis:
 		distFitness2 = abs(self.distance(industrialCenter) - idealDistFromIndustrial) * -0.75
 		# Summing the fitness parameters
 		self.fitness = flatnessFitness + groundFitness + distFitness1 + distFitness2
+
+
+	def analyzeGround(self, level, distBelowGround, distAboveGround):
+		bHist = {}
+		vHist = {}
+		for x in xrange(self.box.minx, self.box.maxx):
+			for z in xrange(self.box.minz, self.box.maxz):
+				groundY = getGroundYPos(x, z)
+				for y in xrange(groundY - distBelowGround, groundY + distAboveGround + 1):
+					id = level.blockAt(x, y, z)
+					if id in NATUAL_BLOCKS:
+						if NATUAL_BLOCKS[id]["Type"] == "B":
+							if id in bHist:
+								bHist[id] += 1
+							else:
+								bHist[id] = 1
+						elif NATUAL_BLOCKS[id]["Type"] == "V":
+							if id in vHist:
+								vHist[id] += 1
+							else:
+								vHist[id] = 1
+		sortedBHist = [(bHist[key], key) for key in bHist]
+		sortedBHist.sort()
+		sortedBHist.reverse()
+		sortedBHist = [(i[1], i[0]) for i in sortedBHist]
+		sortedVHist = [(vHist[key], key) for key in vHist]
+		sortedVHist.sort()
+		sortedVHist.reverse()
+		sortedVHist = [(i[1], i[0]) for i in sortedVHist]
+		return sortedBHist, sortedVHist
+
 
 	# Necessary for sorting
 	def __lt__(self, other):

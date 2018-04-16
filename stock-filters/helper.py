@@ -49,7 +49,7 @@ def isNotResource(id):
 	return NATUAL_BLOCKS[id]['Type'] == 'N'
 
 def isGround(id):
-	return id in NATUAL_BLOCKS and (not id in [17]) # Doesn't count the block as ground if it is air, wood, or plant material
+	return id in NATUAL_BLOCKS and id != 17 # Doesn't count the block as ground if it is air, wood, or plant material
 
 _heightMap = {}
 
@@ -129,12 +129,38 @@ def getGroundYPos(x, z):
 
 def setBlock(level, id, x, y, z):
 	utilityFunctions.setBlock(level, id, x, y, z)
-	if y > _heightMap[x][z]:
-		_heightMap[x][z] = y
+	if id[0] == 0: # If placed an air-block
+		if y == _heightMap[x][z]:
+			for newY in xrange(y - 1, -1, -1):
+				otherId = level.blockAt(x, newY, z)
+				if isGround(otherId):
+					_heightMap[x][z] = newY
+					break
+	else: # If placed a non-air block
+		if y > _heightMap[x][z]:
+			_heightMap[x][z] = y
 
 
 def setHeight(level,x,y,z):
-        _heightMap[x][z] = y
+	_heightMap[x][z] = y
+
+
+def lerpInt(min, max, t):
+	return int(round(min + ((max - min) * t)))
+
+
+def fenceInChunk(level, chunk, blockId):
+	for x in xrange(chunk.box.minx, chunk.box.maxx):
+		for z in (chunk.box.minz, chunk.box.maxz - 1):
+			y = getGroundYPos(x, z)
+			for yy in xrange(5):
+				setBlock(level, blockId, x, y + 1 + yy, z)
+	for z in xrange(chunk.box.minz + 1, chunk.box.maxz - 1):
+		for x in (chunk.box.minx, chunk.box.maxx - 1):
+			y = getGroundYPos(x, z)
+			for yy in xrange(5):
+				setBlock(level, blockId, x, y + 1 + yy, z)
+
 
 
 # def getHistogram(level, box):
