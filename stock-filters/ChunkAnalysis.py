@@ -107,12 +107,17 @@ class ChunkAnalysis:
 		idealDistFromCommercial = 5
 		minGround = 0.15
 		# Calculating each parameter's score
-		if self.groundPercentage < minGround or self == commercialCenter:
+		if self.groundPercentage < minGround or self in commercialCenter:
 			self.fitness = -999999
 			return
 		valuableFitness = abs((self.resourceProximity["V"] / maxScores["V"]) - idealValuable) * -1.25
 		buildingMaterialFitness = abs((self.resourceProximity["B"] / maxScores["B"]) - idealBuildingMaterial) * -1
-		distFitness = abs(self.distance(commercialCenter) - idealDistFromCommercial) * -0.25
+		avgDist1 = 0
+		for i in commercialCenter:
+			avgDist1 += self.distance(i)
+		if len(commercialCenter) > 0:
+			avgDist1 /= float(len(commercialCenter))
+		distFitness = abs(avgDist1 - idealDistFromCommercial) * -0.0625#-0.25
 		# Summing the fitness parameters
 		self.fitness = valuableFitness + buildingMaterialFitness + distFitness
 
@@ -124,19 +129,24 @@ class ChunkAnalysis:
 		idealDistFromCommercial = 3.5
 		minGround = 0.5
 		# Calculating each parameter's score
-		if self.groundPercentage < minGround or self in [commercialCenter, industrialCenter]:
+		if self.groundPercentage < minGround or self in commercialCenter or self in industrialCenter:
 			self.fitness = -999999
 			return
 		flatnessFitness = abs(self.flatness - idealFlatness) * -1.5
 		waterFitness = abs((self.resourceProximity["W"] / maxScores["W"]) - idealWater) * -1
 		groundFitness = abs(self.groundPercentage - idealGround) * -1.25
-		distFitness = abs(self.distance(commercialCenter) - idealDistFromCommercial) * -0.25
+		avgDist1 = 0
+		for i in commercialCenter:
+			avgDist1 += self.distance(i)
+		if len(commercialCenter) > 0:
+			avgDist1 /= float(len(commercialCenter))
+		distFitness = abs(avgDist1 - idealDistFromCommercial) * -0.0625#-0.25
 		# Summing the fitness parameters
 		self.fitness = flatnessFitness + waterFitness + groundFitness + distFitness
 
 	def calculateHighClassResidentialFitness(self, maxScores, commercialCenter, industrialCenter, agriculturalCenter):
 		# Identifying fitness parameters
-		idealFlatness = 0.8
+		idealFlatness = 0.9
 		idealWater = 0.25
 		idealGround = 1
 		idealDistFromCommercial = 0
@@ -150,9 +160,24 @@ class ChunkAnalysis:
 		flatnessFitness = abs(self.flatness - idealFlatness) * -1
 		waterFitness = abs((self.resourceProximity["W"] / maxScores["W"]) - idealWater) * -1
 		groundFitness = abs(self.groundPercentage - idealGround) * -0.5
-		distFitness1 = abs(self.distance(commercialCenter) - idealDistFromCommercial) * -0.75
-		distFitness2 = abs(self.distance(industrialCenter) - idealDistFromIndustrial) * -0.5
-		distFitness3 = abs(self.distance(agriculturalCenter) - idealDistFromAgricultural) * -0.25
+		avgDist1 = 0
+		for i in commercialCenter:
+			avgDist1 += self.distance(i)
+		if len(commercialCenter) > 0:
+			avgDist1 /= float(len(commercialCenter))
+		avgDist2 = 0
+		for i in industrialCenter:
+			avgDist2 += self.distance(i)
+		if len(industrialCenter) > 0:
+			avgDist2 /= float(len(industrialCenter))
+		avgDist3 = 0
+		for i in agriculturalCenter:
+			avgDist3 += self.distance(i)
+		if len(agriculturalCenter) > 0:
+			avgDist3 /= float(len(agriculturalCenter))
+		distFitness1 = abs(avgDist1 - idealDistFromCommercial) * -0.1875#-0.75
+		distFitness2 = abs(avgDist2 - idealDistFromIndustrial) * -0.125#-0.5
+		distFitness3 = abs(avgDist3 - idealDistFromAgricultural) * -0.0625#-0.25
 		# Summing the fitness parameters
 		self.fitness = flatnessFitness + waterFitness + groundFitness + distFitness1 + distFitness2 + distFitness3
 
@@ -169,8 +194,18 @@ class ChunkAnalysis:
 			return
 		flatnessFitness = abs(self.flatness - idealFlatness) * -1
 		groundFitness = abs(self.groundPercentage - idealGround) * -1
-		distFitness1 = abs(self.distance(commercialCenter) - idealDistFromCommercial) * -0.5
-		distFitness2 = abs(self.distance(industrialCenter) - idealDistFromIndustrial) * -0.75
+		avgDist1 = 0
+		for i in commercialCenter:
+			avgDist1 += self.distance(i)
+		if len(commercialCenter) > 0:
+			avgDist1 /= float(len(commercialCenter))
+		avgDist2 = 0
+		for i in industrialCenter:
+			avgDist2 += self.distance(i)
+		if len(industrialCenter) > 0:
+			avgDist2 /= float(len(industrialCenter))
+		distFitness1 = abs(avgDist1 - idealDistFromCommercial) * -0.125#-0.5
+		distFitness2 = abs(avgDist2 - idealDistFromIndustrial) * -0.1875#-0.75
 		# Summing the fitness parameters
 		self.fitness = flatnessFitness + groundFitness + distFitness1 + distFitness2
 

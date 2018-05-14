@@ -1,0 +1,111 @@
+|----Layer 1|
+ CCC
+CCCCC
+CCCCC
+CCCCC
+CCCCC
+ CCC
+ CCC
+ CCC
+ CCC
+  S
+|----Layer 2|
+ CCC
+CCCCC
+CCSCC
+CS SC
+C   C
+CL  C
+C   C
+C   C
+ CDC
+|----Layer 3|
+ CCC 
+Cs $C
+C   C
+C   C
+C   C
+CL  C
+G   G
+C   C
+ COC
+|----Layer 4|
+ CgC
+C   C
+G   G
+C   C
+C   C
+CL  C
+G   G
+C   C
+ CCC
+|----Layer 5|
+ CCC
+C H C
+Ct hC
+C T C
+CCCCC
+CLCCC
+CCCCC
+CCCCC
+CCCCC
+|----Layer 6|
+ 
+ CCC
+ CCC
+ CCC
+ CCC
+CL  C
+C   C
+C   C
+ CCC
+|----Layer 7 - 8|
+ 
+ 
+ 
+ 
+ CgC
+CL  C
+G   G
+C   C
+ CgC
+|----Layer 9|
+ 
+ 
+ 
+ 
+ CCC
+CL  C
+C   C
+C   C
+ CCC
+|----Layer 10|
+ 
+ 
+ 
+ 
+CCCCC
+CLCCC
+CCCCC
+CCCCC
+CCCCC
+|----Layer 11|
+ 
+ 
+ 
+ 
+ CCC
+C   C
+C   C
+C   C
+ CCC
+|----Layer 12|
+ 
+ 
+ 
+ 
+  C
+ 
+C   C
+ 
+  C

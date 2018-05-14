@@ -1,0 +1,49 @@
+|----Layer 2|
+CCCCCCCCCC
+CCCCCCCCCC
+CCCCCCCCCC
+CCCCCCCCCC
+CCCCCCCCCC
+CCCCCCCCCC
+CCCCCCCCCC
+ OOO   
+|----Layer 2|
+CCCCPPPPPW
+CLLCQ  SPP
+CCCC   FsP
+   CPP   P
+      P  P
+ D       P
+F   F WPPW
+|----Layer 3|
+CCCCPnPnPW
+I  C     P
+I  C   R N
+   BPP   P
+      P  N
+         P
+F   F WPPW
+|----Layer 4|
+CCCCPPPPPW
+CCCC     P
+CCCC     P
+   BPP   P
+      P  P
+      P  P
+F   F WPPW
+|----Layer 5|
+CCCCCCCCCW
+CCCCCCCCCC
+CCCCCCCCCC
+CCCCCCCCCC
+CCCCCCCCCC
+CCCCCCCCCC
+CCCCCCWCCW
+|----Layer 6|
+$$$$$$$$$$
+$        $
+$        $
+$        $
+$        $
+$        $
+$$$$$$$$$$

@@ -30,6 +30,7 @@ NATUAL_BLOCKS = {
 	82: {'Name': 'Clay', 'Type': 'B'},
 	98: {'Name': 'Stone brick', 'Type': 'B'},
 	129: {'Name': 'Emerald ore', 'Type': 'V'},
+	162: {'Name': 'Dark Oak Wood', 'Type': 'B'},
 	179: {'Name': 'Red sandstone', 'Type': 'N'}
 }
 
@@ -49,7 +50,9 @@ def isNotResource(id):
 	return NATUAL_BLOCKS[id]['Type'] == 'N'
 
 def isGround(id):
-	return id in NATUAL_BLOCKS and id != 17 # Doesn't count the block as ground if it is air, wood, or plant material
+        if id == 78:
+                return False;
+	return id in NATUAL_BLOCKS and not isPartOfTree(id) # Doesn't count the block as ground if it is air, wood, or plant material
 
 _heightMap = {}
 
@@ -114,12 +117,56 @@ def initializeHeightmap(level, box):
 				id = level.blockAt(x, y, z)
 				if isGround(id):
 					break
+				elif id in (17, 162): # If wood
+					treeMap.add((x, z))
 			_heightMap[x][z] = y
 			z += 1
 		# Resetting z and y
 		z = box.minz
 		# Incrementing x
 		x += 1
+
+
+treeMap = set()
+
+MAX_TREE_RADIUS = 6
+def deleteTree(level, x, z):
+	if (x, z) in treeMap:
+		treeMap.remove((x, z))
+		y0 = getGroundYPos(x, z) + 1
+		y = y0
+		# Finding the bounds of the tree
+		bounds = 0
+		while True:
+			for i in range(1, MAX_TREE_RADIUS + 1):
+				if isPartOfTree(level.blockAt(x+i, y, z)) and isPartOfTree(level.blockAt(x-i, y, z)) and isPartOfTree(level.blockAt(x, y, z+i)) and isPartOfTree(level.blockAt(x, y, z-i)):
+					continue
+				else:
+					if i > bounds:
+						bounds = i
+					break
+			y += 1
+			if isPartOfTree(level.blockAt(x, y, z)) and bounds < MAX_TREE_RADIUS: # If we are still finding tree material and bound is not max value, continue; there is more tree to explore
+				continue
+			else:
+				break
+		listOfTrees = list(treeMap)
+		for i in range(len(listOfTrees) - 1, -1, -1): # Recurses on any tree that overlapped with the bounds we are removing
+			tree = listOfTrees[i]
+			if x-bounds <= tree[0] <= x+bounds and z-bounds <= tree[1] <= z+bounds:
+				deleteTree(level, tree[0], tree[1])
+		# Removing the tree material within the bounds
+		for x1 in range(x-bounds, x+bounds + 1):
+			if x1 in _heightMap:
+				for z1 in range(z-bounds, z+bounds + 1):
+					if z1 in _heightMap[x1]:
+						for y1 in range(y0, y + 1):
+							if isPartOfTree(level.blockAt(x1, y1, z1)):
+								setBlock(level, (0, 0), x1, y1, z1) # Clears the block
+
+
+def isPartOfTree(id):
+	return id == 17 or id == 162 or id == 18 or id == 161 or id == 106
 
 
 

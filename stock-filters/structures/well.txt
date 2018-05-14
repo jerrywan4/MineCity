@@ -1,0 +1,55 @@
+|----Layer -10(Bottom, Layer -3 on Superflat worlds)|
+ 
+ CCCC
+ CCCC
+ CCCC
+ CCCC
+|----Layer -9 - 0(Shaft, Layer -2 - 0 on Superflat worlds)|
+ 
+ CCCC
+ CWWC
+ CWWC
+ CCCC
+|----Layer -9 - 0(Shaft, Layer -2 - 0 on Superflat worlds)|
+ 
+ CCCC
+ CWWC
+ CWWC
+ CCCC
+|----Layer -9 - 0(Shaft, Layer -2 - 0 on Superflat worlds)|
+ 
+ CCCC
+ CWWC
+ CWWC
+ CCCC
+|----Layer 1|
+CCCCCC
+CCCCCC
+CCWWCC
+CCWWCC
+CCCCCC
+CCCCCC
+|----Layer 2|
+ 
+ CCCC
+ C  C
+ C  C
+ CCCC
+|----Layer 3 - 4|
+ 
+ F  F
+ 
+ 
+ F  F
+|----Layer 3 - 4|
+ 
+ F  F
+ 
+ 
+ F  F
+|----Layer 5|
+ 
+ CCCC
+ CCCC
+ CCCC
+ CCCC

@@ -1,0 +1,72 @@
+|----Layer 1|
+ 
+ccccccccc
+ccccccccc
+ccccccccc
+ccccccccc
+ccccccccc
+ccccccccc
+       s
+|----Layer 2|
+ 
+ccccccccc
+cpssss  c
+csf f   c
+c       c
+ce      c
+cccccccdc
+|----Layer 3|
+ 
+cpGGpGGpc
+p       p
+g r r   g
+g       g
+p       p
+cpGGGppac
+|----Layer 4|
+ 
+cpppppppc
+plllllllp
+g       g
+g       g
+p       p
+cpGGGpppc
+|----Layer 5|
+ 
+cpppppppc
+ppppppppp
+p       p
+p       p
+ppppppppp
+cpppppppc
+|----Layer 6|
+SSSSSSSSS
+ccccccccc
+ccccccccc
+ccccccccc
+ccccccccc
+ccccccccc
+ccccccccc
+sssssssss
+|----Layer 7|
+ 
+SSSSSSSSS
+ccccccccc
+ccccccccc
+ccccccccc
+ccccccccc
+sssssssss
+ 
+|----Layer 8|
+ 
+ 
+SSSSSSSSS
+ccccccccc
+ccccccccc
+sssssssss
+|----Layer 9|
+ 
+ 
+ 
+SSSSSSSSS
+sssssssss
